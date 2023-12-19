@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DANBANK my cards</title>
+    <link rel="icon" href="/smallLogo.png" type="image/x-icon">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="../../static/css/style.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .currency-container {
+            display: flex;
+            justify-content: space-around;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .currency-block {
+            border: 1px solid #f1f1f1;
+            padding: 20px;
+            text-align: center;
+            width: 45%;
+            border-radius: 10px;
+            background-color: #484141;
+            box-shadow: 0 0 10px rgba(238, 104, 104, 0.1);
+            margin: 10px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+<!-- partial:index.partial.html -->
+<div class="app">
+    <header class="app-header">
+        <div class="app-header-logo">
+            <div class="logo">
+                <h1 class="logo-title">
+                    <span>DanBank</span>
+                    <span>your bank</span>
+                </h1>
+            </div>
+        </div>
+        <div class="app-header-navigation">
+            <div class="tabs">
+                <a href="/account">
+                    My page
+                    <a href="/cardsPage">
+                        Cards
+                    </a>
+                    <a href="/myAccount">
+                        My Account
+                    </a>
+                    <a href="/system">
+                        System
+                    </a>
+                    <a href="/logout">
+                        Exit
+                    </a>
+                </a>
+            </div>
+        </div>
+        <div class="app-header-actions">
+
+            <h2 th:inline="text">Your details - <span th:text="${login}"></span> !</h2>
+
+        </div>
+
+
+    </header>
+    <div class="app-body">
+        <div class="app-body-navigation">
+            <nav class="navigation">
+                <a href="/transfers">
+                    <i class="ph-swap"></i>
+                    <span>Transfers</span>
+                </a>
+                <a href="/exchange">
+                    <i class="ph-globe"></i>
+                    <span>Exchange</span>
+                </a>
+                <a href="/history">
+                    <i class="ph-clipboard-text"></i>
+                    <span>History</span>
+                </a>
+            </nav>
+            <footer class="footer">
+                <div>
+                    Artem Danylchuk ©<br/>
+                    All Rights Reserved 2023
+                </div>
+            </footer>
+        </div>
+
+        <div class="app-body-main-content">
+            <section class="service-section">
+
+
+                <h1>More information about transaction on the date - <input type="text"
+                                                                            class="btn btn-outline-secondary"
+                                                                            th:value="${clientsHistory != null ? clientsHistory.data : ''}"
+                                                                            readonly>.</h1>
+                <br>
+                <br>
+                <div class="name-surname-container">
+                    <div>
+                        <label class="dark-field">Sender`s name :</label>
+                        <input type="text" th:value="${clientsHistory != null ? clientsHistory.senderName : ''}"
+                               readonly>
+                    </div>
+                    <div>
+                        <label class="dark-field">Sender`s surname :</label>
+                        <input type="text" th:value="${clientsHistory != null ? clientsHistory.senderSurname : ''}"
+                               readonly>
+                    </div>
+                </div>
+                <div>
+                    <label class="dark-field">Sender`s card number:</label>
+                    <input type="text" th:value="${clientsHistory != null ? clientsHistory.cardNumberSender : ''}"
+                           readonly>
+                </div>
+                <br>
+                <br>
+                <div class="name-surname-container">
+                    <div>
+                        <label class="dark-field">Recipient name :</label>
+                        <input type="text" th:value="${clientsHistory != null ? clientsHistory.recipientName : ''}"
+                               readonly>
+                    </div>
+                    <div>
+                        <label class="dark-field">Recipient surname :</label>
+                        <input type="text" th:value="${clientsHistory != null ? clientsHistory.recipientSurname : ''}"
+                               readonly>
+                    </div>
+                </div>
+                <div>
+                    <label class="dark-field">Recipient card number:</label>
+                    <input type="text" th:value="${clientsHistory != null ? clientsHistory.cardNumberRecipient : ''}"
+                           readonly>
+                </div>
+                <br>
+                <br>
+                <div class="name-surname-container">
+                    <div>
+                        <label class="dark-field">Amount :</label>
+                        <input type="text" th:value="${clientsHistory != null ? clientsHistory.amount : ''}" readonly>
+                    </div>
+                </div>
+                <br>
+                <div class="service-section-footer">
+                    <p><a href="/history" type="button" class="btn btn-dark">Back.</a></p>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

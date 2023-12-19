@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DANBANK my cards</title>
+    <link rel="icon" href="/smallLogo.png" type="image/x-icon">
+    <link rel="icon" href="/smallLogo.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="../../static/css/style.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .currency-container {
+            display: flex;
+            justify-content: space-around;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .currency-block {
+            border: 1px solid #f1f1f1;
+            padding: 20px;
+            text-align: center;
+            width: 45%;
+            border-radius: 10px;
+            background-color: #484141;
+            box-shadow: 0 0 10px rgba(238, 104, 104, 0.1);
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<!-- partial:index.partial.html -->
+<div class="app">
+    <header class="app-header">
+        <div class="app-header-logo">
+            <div class="logo">
+                <h1 class="logo-title">
+                    <span>DanBank</span>
+                    <span>your bank</span>
+                </h1>
+            </div>
+        </div>
+        <div class="app-header-navigation">
+            <div class="tabs">
+                <a href="/account">
+                    My page
+                    <a href="/cardsPage">
+                        Cards
+                    </a>
+                    <a href="/myAccount">
+                        My Account
+                    </a>
+                    <a href="/system">
+                        System
+                    </a>
+                    <a href="/logout">
+                        Exit
+                    </a>
+                </a>
+            </div>
+        </div>
+        <div class="app-header-actions">
+
+            <h2 th:inline="text">Your details - <span th:text="${login}"></span> !</h2>
+
+        </div>
+
+
+    </header>
+    <div class="app-body">
+        <div class="app-body-navigation">
+            <nav class="navigation">
+                <a href="/transfers">
+                    <i class="ph-swap"></i>
+                    <span>Transfers</span>
+                </a>
+                <a href="/exchange">
+                    <i class="ph-globe"></i>
+                    <span>Exchange</span>
+                </a>
+                <a href="/history">
+                    <i class="ph-clipboard-text"></i>
+                    <span>History</span>
+                </a>
+            </nav>
+            <footer class="footer">
+                <div>
+                    Artem Danylchuk ©<br/>
+                    All Rights Reserved 2023
+                </div>
+            </footer>
+        </div>
+
+
+        <div class="app-body-main-content">
+            <section class="service-section">
+
+
+
+                        <h1>Congratulations! Here you can exchange currency on your accounts</h1>
+
+                <div class="currency-container">
+                <div class="currency-block" id="usd-eur">
+                    <h2>USD &#8658; EUR</h2>
+                    <p th:text="${usdToEur}" th:class="${usdToEur} ? 'bold-text' : ''"></p>
+                </div>
+                <div class="currency-block" id="eur-uah">
+                    <h2>EUR &#8658; UAH</h2>
+                    <p th:text="${eurToUah}" th:class="${eurToUah} ? 'bold-text' : ''"></p>
+                </div>
+                    <div class="currency-block" id="uah-usd">
+                        <h2>UAH &#8658; USD</h2>
+                        <p th:text="${uahToUsd}" th:class="${uahToUsd} ? 'bold-text' : ''"></p>
+                    </div>
+
+                        <div class="currency-block" id="usd-uah">
+                            <h2>USD &#8658; UAH</h2>
+                            <p th:text="${usdToUah}" th:class="${usdToUah} ? 'bold-text' : ''"></p>
+                        </div>
+                        <div class="currency-block" id="eur-usd">
+                            <h2>EUR &#8658; USD</h2>
+                            <p th:text="${eurToUsd}" th:class="${eurToUsd} ? 'bold-text' : ''"></p>
+                        </div>
+                        <div class="currency-block" id="uah-eur">
+                            <h2>UAH &#8658; EUR</h2>
+                            <p th:text="${uahToEur}" th:class="${uahToEur} ? 'bold-text' : ''"></p>
+                        </div>
+
+        </div>
+                <form th:action="@{/exchangePost}" method="post">
+                    <br>
+                    <h1>1.First choose from which card to change:</h1>
+                    <div class="select-wrapper">
+                        <label for="clientId2">Select Card:</label>
+                        <select id="clientId2" name="fromCard" >
+                            <option value="">&#8595;--- Your cards ---&#8595;</option>
+                            <option th:text="${'Card eur: '+ cardEuroL + ' balance: ' + sumCardEur}"></option>
+                            <option th:text="${'Card uah: '+ cardUahL + ' balance: ' +sumCardUah}"></option>
+                            <option th:text="${'Card usd: '+ cardUsdL + ' balance: ' + sumCardUsd }"></option>
+                        </select>
+                    </div>
+                    <br>
+                    <h1>2.Now indicate to which card to transfer the funds:</h1>
+                    <div class="select-wrapper2">
+                        <label for="clientId">Select Card:</label>
+                        <select id="clientId" name="toCard" >
+                            <option value="">&#8595;--- Your cards ---&#8595;</option>
+                            <option th:text="${'Card eur: '+ cardEuroL + ' balance: ' + sumCardEur}"></option>
+                            <option th:text="${'Card uah: '+ cardUahL + ' balance: ' +sumCardUah}"></option>
+                            <option th:text="${'Card usd: '+ cardUsdL + ' balance: ' + sumCardUsd }"></option>
+                        </select>
+                    </div>
+                    <br>
+                    <h1>3.And now enter the amount to exchange:</h1>
+                    <div>
+                        <label class="dark-field">Please enter the amount:</label>
+                        <input type="text" name="sum" pattern="[0-9]+(\.[0-9]+)?" th:value="${sum}"
+                               title="Enter a decimal number" required="required" id="sum"/>
+                    </div>
+                    <br>
+                    <div th:if="${result}" th:text="${result}" class="error-message"></div>
+
+                    <button class="flat-button">Send </button>
+
+                </form>
+
+
+            </section>
+        </div>
+    </div>
+</div>
+<!-- partial -->
+
+<script src='https://unpkg.com/phosphor-icons'></script>
+<script src="../../static/js/script.js"></script>
+
+</body>
+</html>

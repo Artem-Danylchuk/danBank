@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DANBANK my account</title>
+    <link rel="icon" href="/smallLogo.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="../../static/css/style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="app">
+    <header class="app-header">
+        <div class="app-header-logo">
+            <div class="logo">
+                <h1 class="logo-title">
+                    <span>DanBank</span>
+                    <span>your bank</span>
+                </h1>
+            </div>
+        </div>
+        <div class="app-header-navigation">
+            <div class="tabs">
+                <a href="/account">
+                    My page
+                    <a href="/cardsPage">
+                        Cards
+                    </a>
+                    <a href="/myAccount">
+                        My Account
+                    </a>
+                    <a href="/system">
+                        System
+                    </a>
+                    <a href="/logout">
+                        Exit
+                    </a>
+                </a>
+            </div>
+        </div>
+        <div class="app-header-actions">
+            <h2 th:inline="text">Hi - <span th:text="${login}"></span> !</h2>
+        </div>
+    </header>
+    <div class="app-body">
+        <div class="app-body-navigation">
+            <nav class="navigation">
+                <a href="/transfers">
+                    <i class="ph-swap"></i>
+                    <span>Transfers</span>
+                </a>
+                <a href="/exchange">
+                    <i class="ph-globe"></i>
+                    <span>Exchange</span>
+                </a>
+                <a href="/history">
+                    <i class="ph-clipboard-text"></i>
+                    <span>History</span>
+                </a>
+            </nav>
+            <footer class="footer">
+                <div>
+                    Artem Danylchuk ©<br/>
+                    All Rights Reserved 2023
+                </div>
+            </footer>
+        </div>
+        <!-- Method search by card -->
+        <div class="app-body-main-content">
+            <section class="service-section">
+                <h2 class="fw-bold mb-0">Hi! Here you can transfer your money.</h2>
+                <form th:action="@{/search}" method="post">
+                    <br>
+                    <div class="service-section-header">
+                        <div class="search-field">
+                            <i class="ph-magnifying-glass"></i>
+                            <input type="text" placeholder="    Card number" name="searchCardNumber"
+                                id="searchCardNumber"   th:value="${lastSearchValue}">
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="mobile-only">
+                        <button class="flat-button">
+                            Toggle search
+                        </button>
+                    </div>
+                    <div th:if="${cardNumberNo}" th:text="${cardNumberNo}" class="error-message"></div>
+                    <div th:if="${cardNumberYes}" th:text="${cardNumberYes}" class="error-message"></div>
+                    <div th:if="${errorString}" th:text="${errorString}" class="error-message"></div>
+                    <div th:if="${errorLength}" th:text="${errorLength}" class="error-message"></div>
+                    <br>
+                    <div>
+                        <h4 class="fw-bold mb-0">Recipient: </h4>
+                    </div>
+                    <div class="name-surname-container">
+                        <div>
+                            <label class="dark-field">Name :</label>
+                            <input type="text" th:value="${accountInf != null ? accountInf.name : ''}" readonly>
+                        </div>
+                        <div>
+                            <label class="dark-field">Surname :</label>
+                            <input type="text" th:value="${accountInf != null ? accountInf.surname : ''}" readonly>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="dark-field">Card number:</label>
+                        <input type="text" th:value="${cardNumberFind != null ? cardNumberFind : ''}" readonly>
+                    </div>
+                    <br>
+                    <br>
+                    <div>
+                        <label class="dark-field">Please enter the amount:</label>
+                        <input type="text" name="sum" pattern="[0-9]+(\.[0-9]+)?" th:value="${sum}"
+                               title="Enter a decimal number" required="required" id="sum"/>
+                    </div>
+                    <br>
+                    <button class="flat-button" type="submit"> Search</button>
+                    <br>
+                    <br>
+                    <br>
+                    <div>
+                        <h4 class="fw-bold mb-0">Sender: </h4>
+                    </div>
+                    <div class="select-wrapper">
+                        <label for="clientId">Select Card:</label>
+                        <select id="clientId" name="selectedCard" onchange="updateConfirmationBox()">
+                            <option value="">&#8595;--- Your cards ---&#8595;</option>
+                            <option th:text="${'Card eur: '+ cardEuroL + ' balance: ' + sumCardEur}"></option>
+                            <option th:text="${'Card uah: '+ cardUahL + ' balance: ' +sumCardUah}"></option>
+                            <option th:text="${'Card usd: '+ cardUsdL + ' balance: ' + sumCardUsd }"></option>
+                        </select>
+                    </div>
+                    <br>
+
+
+                    <button onclick="openConfirmation()" class="flat-button">Approve </button>
+                    <div th:if="${result}" th:text="${result}" class="error-message"></div>
+
+
+                    <div id="overlay" class="overlay"></div>
+                    <div id="confirmationBox" class="confirmation-box">
+                        <h2>Transfer confirmation:</h2>
+                        <p>Recipient's name: <span th:text="${accountInf != null ? accountInf.name : ''}"></span></p>
+                        <p>Recipient's card: <span th:text="${lastSearchValue}"></span></p>
+                        <p>Sum: <span th:text="${sum}"></span></p>
+                        <p>Sum with percent: <span th:text="${sumWithPercent}"></span></p>
+                        <br>
+                        <p><span id="senderCardConfirmation"></span></p>
+                        <br>
+                        <br>
+                        <p>Please note that the bank charges a commission of 5%</p>
+                        <br>
+                        <br>
+                        <button >Send</button>
+                        <button onclick="closeConfirmation()">Cancel</button>
+                        <br>
+
+                        <div id="response-container"> </div>
+                    </div>
+</form>
+            </section>
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<!-- partial -->
+
+<script src='https://unpkg.com/phosphor-icons'></script>
+<script src="../../static/js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+</html>
