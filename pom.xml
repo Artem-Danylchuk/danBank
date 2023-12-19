@@ -11,6 +11,7 @@
     <groupId>Bank</groupId>
     <artifactId>backBank</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
     <name>backBank</name>
     <description>Demo backend for DANBANK</description>
     <properties>
