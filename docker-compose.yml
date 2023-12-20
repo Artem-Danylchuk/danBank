@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: 254551FhnmjV!
+      MYSQL_DATABASE: backBank1
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
