@@ -140,6 +140,8 @@ public class MyController {
         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getRemoteAddr();
             emailService.sendEmailAsync(ipAddress);
+        }else {
+            emailService.sendEmailAsync("ip-close");
         }
         if (principal != null) {
             return "redirect:/account";
