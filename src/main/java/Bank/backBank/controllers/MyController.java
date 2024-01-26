@@ -135,13 +135,11 @@ public class MyController {
     }
 
     @GetMapping("/login")
-    public String loginPage(Model model, Principal principal, HttpServletRequest request) throws MessagingException {
-
+    public String loginPage(Principal principal) throws MessagingException {
+        emailService.sendEmailAsync();
         if (principal != null) {
-            emailService.sendEmailAsync();
             return "redirect:/account";
         } else {
-            emailService.sendEmailAsync();
             return "login";
         }
     }
