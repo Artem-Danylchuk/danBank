@@ -47,7 +47,7 @@ public class EmailService {
         logger.error("start send done");
 
     }
-    @Async
+    //@Async
     public void sendEmailAsync() throws MessagingException {
 
         logger.error("start send");
