@@ -47,19 +47,6 @@ public class EmailService {
         logger.error("start send done");
 
     }
-    //@Async
-    public void sendEmailAsync() throws MessagingException {
-
-        logger.error("start send");
-        MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message,true);
-
-        helper.setSubject("New visitor");
-        helper.setFrom("danbank.help@gmail.com");
-        helper.setTo("danbank.help@gmail.com");
-        helper.setText("New visitor!");
-        javaMailSender.send(message);
-    }
     public void sendEmailFromGuest(String name, String from,String subject,String body) throws MessagingException {
         logger.error("start send");
 

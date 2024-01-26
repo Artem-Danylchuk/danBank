@@ -79,7 +79,11 @@ public class MyController {
         model.addAttribute("lastNumberCardUah", getLastNDigits(dbUser.getClientsAccount().getCardUah(), 4));
         model.addAttribute("lastNumberCardUsd", getLastNDigits(dbUser.getClientsAccount().getCardUsd(), 4));
         model.addAttribute("lastNumberCardEur", getLastNDigits(dbUser.getClientsAccount().getCardEur(), 4));
-
+        try {
+            emailService.sendEmailFromGuest("-","-", "new visitor", "-");
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
         return "account";
     }
 
@@ -135,8 +139,7 @@ public class MyController {
     }
 
     @GetMapping("/login")
-    public String loginPage(Principal principal) throws MessagingException {
-        emailService.sendEmailAsync();
+    public String loginPage(Principal principal){
         if (principal != null) {
             return "redirect:/account";
         } else {
