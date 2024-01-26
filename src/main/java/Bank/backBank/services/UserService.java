@@ -63,7 +63,7 @@ public class UserService {
 
         ClientsLogin user = new ClientsLogin(login, passHash, email, role);
 
-        ClientsInformation clientsInformation = new ClientsInformation("-", "-", "-", 0, "-", "-", "-", "-");
+        ClientsInformation clientsInformation = new ClientsInformation("-", "-", "-", "-", "-", "-", "-", "-");
         user.setClientsInformation(clientsInformation);
 
         ClientsAccount clientsAccount = new ClientsAccount(100.0, createVisaCardNumber(),createCvvForCards(),currencyDate(), 100.0, createVisaCardNumber(),createCvvForCards(),currencyDate(), 100.0, createMasterCardNumber(),createCvvForCards(),currencyDate());
@@ -79,7 +79,7 @@ public class UserService {
                 addInfUserDTO.getNumber(), addInfUserDTO.getStreet(), addInfUserDTO.getCountry(), addInfUserDTO.getCity(), addInfUserDTO.getZipCode());
     }
 
-    private ClientsLogin addClientsInformation(String login, String name, String surname, String secretWord, Integer number, String street, String country, String city, String zipCode) {
+    private ClientsLogin addClientsInformation(String login, String name, String surname, String secretWord, String number, String street, String country, String city, String zipCode) {
         ClientsLogin clientsLogin = clientsLoginRepository.findByLogin(login);
         ClientsInformation clientsInformation = clientsLogin.getClientsInformation();
 
@@ -104,7 +104,7 @@ public class UserService {
                                   String zipCode,
                                   String name,
                                   String surname,
-                                  Integer number) {
+                                  String number) {
         ClientsLogin clientsLogin = clientsLoginRepository.findByLogin(login);
         if (clientsLogin == null)
             return;

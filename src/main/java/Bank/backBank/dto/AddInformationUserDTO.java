@@ -15,7 +15,7 @@ public class AddInformationUserDTO {
     private String zipCode;
     private String name;
     private String surname;
-    private Integer number;
+    private String number;
     private String secretWord;
 
 }

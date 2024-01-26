@@ -309,8 +309,8 @@ public class AccountController {
                     clientsInformation.setZipCode(fieldValue);
                     break;
                 case "number":
-                    Integer number = Integer.parseInt(fieldValue);
-                    clientsInformation.setNumber(number);
+                   // Integer number = Integer.parseInt(fieldValue);
+                    clientsInformation.setNumber(fieldValue);
                     break;
                 case "name":
                     clientsInformation.setName(fieldValue);

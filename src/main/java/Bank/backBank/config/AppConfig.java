@@ -23,9 +23,9 @@ public class AppConfig extends GlobalMethodSecurityConfiguration {
         return new CommandLineRunner() {
             @Override
             public void run(String... strings) throws Exception {
-//                userService.addAdmin(ADMIN_LOGIN, "password", "");
-//                userService.addUser(new CreateUserDTO("2", "2", ""));
-//                userService.addUser(new CreateUserDTO("1","1","1"));
+                userService.addAdmin(ADMIN_LOGIN, "password", "");
+                userService.addUser(new CreateUserDTO("2", "2", ""));
+                userService.addUser(new CreateUserDTO("1","1","1"));
             }
         };
     }

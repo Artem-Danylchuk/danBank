@@ -86,7 +86,7 @@ public class MyController {
     public String updateInformation(@RequestParam(required = false) String country, @RequestParam(required = false) String city,
                                     @RequestParam(required = false) String street, @RequestParam(required = false) String zipCode,
                                     @RequestParam(required = false) String name, @RequestParam(required = false) String surname,
-                                    @RequestParam(required = false) Integer number) {
+                                    @RequestParam(required = false) String number) {
         User user = SecurityUtils.getCurrentUser();
 
         String login = user.getUsername();

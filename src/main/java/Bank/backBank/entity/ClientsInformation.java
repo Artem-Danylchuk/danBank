@@ -23,13 +23,13 @@ public class ClientsInformation {
     private String name;
     private String surname;
 
-    private Integer number;
+    private String number;
     private String secretWord;
 
     @OneToOne(mappedBy = "clientsInformation")
     private ClientsLogin clientsLogin;
 
-    public ClientsInformation(String name, String surname, String secretWord,Integer number,String street, String country, String city,  String zipCode  ) {
+    public ClientsInformation(String name, String surname, String secretWord,String number,String street, String country, String city,  String zipCode  ) {
         this.country = country;
         this.city = city;
         this.street = street;
