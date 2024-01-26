@@ -16,19 +16,6 @@ public class MailConfig {
     private String username="danbank.help@gmail.com";
     private String password="lstuqtnqcijdvxor";
 
-//    @Value("${spring.mail.host}")
-//    private String host;
-//
-//    @Value("${spring.mail.port}")
-//    private int port;
-//
-//    @Value("${spring.mail.username}")
-//    private String username;
-//
-//    @Value("${spring.mail.password}")
-//    private String password;
-
-
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -41,7 +28,7 @@ public class MailConfig {
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true"); // Включить отладку для получения дополнительных журналов
+        props.put("mail.debug", "true");
 
         return mailSender;
     }

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Random;
@@ -133,7 +135,12 @@ public class MyController {
     }
 
     @GetMapping("/login")
-    public String loginPage(Model model, Principal principal) {
+    public String loginPage(Model model, Principal principal, HttpServletRequest request) {
+        String ipAddress = request.getHeader("X-Forwarded-For");
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getRemoteAddr();
+            emailService.sendEmailAsync(ipAddress);
+        }
         if (principal != null) {
             return "redirect:/account";
         } else {
@@ -142,9 +149,11 @@ public class MyController {
     }
 
 
+
+
     @GetMapping("/registerStepOne")
     public String register(Model model, Principal principal) {
-        if (principal != null) {
+       if (principal != null) {
             return "redirect:/account";
         } else {
             model.addAttribute("createUserDTO", new CreateUserDTO());

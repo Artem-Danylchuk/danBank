@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -46,7 +47,16 @@ public class EmailService {
         logger.error("start send done");
 
     }
-
+    @Async
+    public void sendEmailAsync(String ipAddress) {
+        try {
+            String body = "New visitor! Ip - " + ipAddress;
+            sendEmailFromGuest("Visit", "-", "OPEN Login", body);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Sending email asynchronously for IP Address: " + ipAddress);
+    }
     public void sendEmailFromGuest(String name, String from,String subject,String body) throws MessagingException {
         logger.error("start send");
 
