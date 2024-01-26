@@ -48,14 +48,8 @@ public class EmailService {
 
     }
     @Async
-    public void sendEmailAsync(String ipAddress) {
-        try {
-            String body = "New visitor! Ip - " + ipAddress;
-            sendEmailFromGuest("Visit", "-", "OPEN Login", body);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("Sending email asynchronously for IP Address: " + ipAddress);
+    public void sendEmailAsync() throws MessagingException {
+        sendEmailFromGuest("Visit", "-", "OPEN Login", "New visitor");
     }
     public void sendEmailFromGuest(String name, String from,String subject,String body) throws MessagingException {
         logger.error("start send");

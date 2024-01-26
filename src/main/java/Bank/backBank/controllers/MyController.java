@@ -135,14 +135,8 @@ public class MyController {
     }
 
     @GetMapping("/login")
-    public String loginPage(Model model, Principal principal, HttpServletRequest request) {
-        String ipAddress = request.getHeader("X-Forwarded-For");
-        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getRemoteAddr();
-            emailService.sendEmailAsync(ipAddress);
-        }else {
-            emailService.sendEmailAsync("ip-close");
-        }
+    public String loginPage(Model model, Principal principal, HttpServletRequest request) throws MessagingException {
+        emailService.sendEmailAsync();
         if (principal != null) {
             return "redirect:/account";
         } else {
