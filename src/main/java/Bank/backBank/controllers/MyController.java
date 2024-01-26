@@ -144,9 +144,6 @@ public class MyController {
         }
     }
 
-
-
-
     @GetMapping("/registerStepOne")
     public String register(Model model, Principal principal) {
        if (principal != null) {
