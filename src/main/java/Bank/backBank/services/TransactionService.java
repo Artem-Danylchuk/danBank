@@ -7,6 +7,7 @@ import Bank.backBank.repository.ClientsInformationRepository;
 import Bank.backBank.repository.RatesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +28,7 @@ public class TransactionService {
     private final ClientsHistoryRepository clientsHistoryRepository;
     private final RatesRepository ratesRepository;
     private final HistoryService historyService;
-
+    @Transactional
     public String transferMoney(Long sender, Double sumToSend, Long recipient) {
         // sender
         Long idSender = clientsAccountRepository.findIdsByColumnsContaining(sender);
@@ -98,7 +99,7 @@ public class TransactionService {
         clientsHistoryRepository.saveAll(Arrays.asList(senderEvent, recipientEvent));
         return "Done! Payment sent.";
     }
-
+    @Transactional
     public String exchangeOperation(Long fromCard, Double sum, Long toCard){
         Long accountId = clientsAccountRepository.findIdsByColumnsContaining(fromCard);
         ClientsAccount account = accountService.getClientsAccountById(accountId);

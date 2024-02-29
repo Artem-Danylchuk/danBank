@@ -14,6 +14,7 @@ import Bank.backBank.repository.ClientsLoginRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -33,31 +34,32 @@ public class UserService {
     private final ClientsInformationRepository clientsInformationRepository;
     private final PasswordEncoder passwordEncoder;
 
-
+    @Transactional(readOnly = true)
     public List<ClientsLogin> getAllUsers() {
         return clientsLoginRepository.findAll();
     }
-
+    @Transactional(readOnly = true)
     public ClientsLogin findByLogin(String login) {
         return clientsLoginRepository.findByLogin(login);
     }
+    @Transactional(readOnly = true)
     public ClientsLogin findByEmail(String email) {
         return clientsLoginRepository.findByLogin(email);
     }
-
+    @Transactional(readOnly = true)
     public ClientsLogin findInformationByLogin(String login) {
         return clientsLoginRepository.findByLogin(login);
     }
-
+    @Transactional
     public ClientsLogin addUser(CreateUserDTO createUser) {
 
         return addUserWithRole(createUser.getLogin(), createUser.getPassword(), createUser.getEmail(), UserRole.USER);
     }
-
+    @Transactional
     public ClientsLogin addAdmin(String login, String password, String email) {
         return addUserWithRole(login, password, email, UserRole.ADMIN);
     }
-
+    @Transactional
     private ClientsLogin addUserWithRole(String login, String password, String email, UserRole role) {
         String passHash = passwordEncoder.encode(password);
 
@@ -73,12 +75,12 @@ public class UserService {
 
         return clientsLoginRepository.save(user);
     }
-
+    @Transactional
     public ClientsLogin addInformation(String login, AddInformationUserDTO addInfUserDTO) {
         return addClientsInformation(login, addInfUserDTO.getName(), addInfUserDTO.getSurname(), addInfUserDTO.getSecretWord(),
                 addInfUserDTO.getNumber(), addInfUserDTO.getStreet(), addInfUserDTO.getCountry(), addInfUserDTO.getCity(), addInfUserDTO.getZipCode());
     }
-
+    @Transactional
     private ClientsLogin addClientsInformation(String login, String name, String surname, String secretWord, String number, String street, String country, String city, String zipCode) {
         ClientsLogin clientsLogin = clientsLoginRepository.findByLogin(login);
         ClientsInformation clientsInformation = clientsLogin.getClientsInformation();
@@ -96,7 +98,7 @@ public class UserService {
 
         return clientsLogin;
     }
-
+    @Transactional
     public void updateInformation(String login,
                                   String country,
                                   String city,

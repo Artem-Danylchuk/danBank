@@ -7,10 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class BackBankApplication {
-
-	@Autowired
-	private EmailService emailService;
-
 	public static void main(String[] args) {
 		SpringApplication.run(BackBankApplication.class, args);
 	}

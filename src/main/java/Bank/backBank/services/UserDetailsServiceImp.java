@@ -16,10 +16,6 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImp implements UserDetailsService {
     private final UserService userService;
-
-    @Autowired
-    private ClientsService clientsService;
-
     public UserDetailsServiceImp(UserService userService) {
         this.userService = userService;
     }

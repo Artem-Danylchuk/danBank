@@ -45,9 +45,7 @@ public class MyController {
 
     private String resetPasswordEmail;
     private String resetPasswordCode;
-
-    @Autowired
-    private SecurityService securityService;
+    private final SecurityService securityService;
 
     @ExceptionHandler(SessionAuthenticationException.class)
     public String handleSessionAuthenticationException(SessionAuthenticationException e) {

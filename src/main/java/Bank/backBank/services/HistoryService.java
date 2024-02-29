@@ -19,7 +19,7 @@ public class HistoryService {
     public long count() {
         return clientsHistoryRepository.count();
     }
-
+    @Transactional(readOnly = true)
     public Page<ClientsHistory> getEntities(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         return clientsHistoryRepository.findAll(pageRequest);

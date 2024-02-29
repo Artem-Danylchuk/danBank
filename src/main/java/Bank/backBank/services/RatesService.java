@@ -7,6 +7,7 @@ import Bank.backBank.utils.CurrencyUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
@@ -32,6 +33,7 @@ public class RatesService {
         updateRate();
     }
     @Scheduled(fixedRate = 24 * 60 * 60 * 1000, zone = "GMT")
+    @Transactional
     public void updateRate() {
 
         Rate rateUER = getRateEUR();

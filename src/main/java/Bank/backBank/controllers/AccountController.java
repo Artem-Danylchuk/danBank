@@ -128,7 +128,6 @@ public class AccountController {
         Double sumWithPercent = sumDouble + (sumDouble * (5.0 / 100.0));
         model.addAttribute("sumWithPercent", sumWithPercent);
         model.addAttribute("selectCard", addCardNumberBySelectCard(selectedCard));
-        System.out.println("data: sum =" + sumWithPercent + ", sendCard = " + addCardNumberBySelectCard(selectedCard) + ", recepient = " + searchCardNumber);
         Long card = addCardNumberBySelectCard(selectedCard);
         Long recipientCard = Long.parseLong(searchCardNumber);
 
@@ -138,7 +137,6 @@ public class AccountController {
             model.addAttribute("result", resultTest);
             return "accountPage/transfers";
         } catch (Exception e) {
-            System.out.println("error");
             return "accountPage/transfers";
         }
 
@@ -226,13 +224,11 @@ public class AccountController {
         Double sumD = Double.parseDouble(sum);
         Long card = addCardNumberBySelectCard(toCard);
         Long fCard = addCardNumberBySelectCard(fromCard);
-        System.out.println(card + "   - " + fCard);
         try {
             String resultTest = transactionService.exchangeOperation(fCard, sumD, card);
             model.addAttribute("result", resultTest);
             return "accountPage/exchange";
         } catch (Exception e) {
-            System.out.println("error");
             return "accountPage/exchange";
         }
 

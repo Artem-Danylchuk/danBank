@@ -1,6 +1,5 @@
 package Bank.backBank.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +13,10 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 
 @Configuration
 public class ThymeleafConfig implements WebMvcConfigurer {
-    @Autowired
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
+    public ThymeleafConfig(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     @Bean
     public ViewResolver viewResolver() {
