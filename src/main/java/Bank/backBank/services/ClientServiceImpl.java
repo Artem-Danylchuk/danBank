@@ -5,6 +5,7 @@ import Bank.backBank.entity.UserRole;
 import Bank.backBank.repository.ClientsLoginRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +22,7 @@ public class ClientServiceImpl implements ClientsService{
     }
 
     @Override
+    @Transactional
     public void save(ClientsLogin clientsLogin) {
         clientsLogin.setPassword(bCryptPasswordEncoder.encode(clientsLogin.getPassword()));
         Set<UserRole> roles = new HashSet<>();
@@ -29,6 +31,7 @@ public class ClientServiceImpl implements ClientsService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ClientsLogin findByLogin(String login) {
         return clientsLoginRepository.findByLogin(login);
     }
